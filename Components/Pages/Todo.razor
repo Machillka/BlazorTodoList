@@ -4,8 +4,22 @@
 <PageTitle>Todo</PageTitle>
 
 <h3>Todo Counts = @todos.Count(todoItem => !todoItem.IsDone)</h3>
-
-<ul>
+<MudCard>
+    <MudCardHeader title="Todo List"></MudCardHeader>
+    <MudCardContent>
+        <MudList T="string">
+            @foreach (var todo in todos)
+            {
+                @* <MudListItem>@todo.Title</MudListItem> *@
+                <MudTextField @bind-Value="todo.Title" Variant="Variant.Filled"></MudTextField>
+                <MudCheckBox @bind-Value="todo.IsDone"></MudCheckBox>
+            }
+        </MudList>
+    </MudCardContent>
+</MudCard>
+<MudTextField Label="Add new task" @bind-Value="_newTaskTitle"></MudTextField>
+<MudButton OnClick="AddTodo">Add</MudButton>
+@* <ul>
     @foreach(var todo in todos)
     {
         <li>
@@ -13,22 +27,22 @@
             <input @bind="todo.Title" />
         </li>
     }
-</ul>
+</ul> *@
 
-<input placeholder="Something todo" @bind=_newTodo/>
-<button @onclick=AddTodo>Add Todo</button>
+@* <input placeholder="Something todo" @bind=_newTodo/>
+<button @onclick=AddTodo>Add Todo</button> *@
 
 @code
 {
-    private string? _newTodo;
+    private string? _newTaskTitle;
     private List<TodoItem> todos = new List<TodoItem>();
 
     private void AddTodo()
     {
-        if (!string.IsNullOrWhiteSpace(_newTodo))
+        if (!string.IsNullOrWhiteSpace(_newTaskTitle))
         {
-            todos.Add(new TodoItem { Title = _newTodo });
-            _newTodo = string.Empty;
+            todos.Add(new TodoItem { Title = _newTaskTitle });
+            _newTaskTitle = string.Empty;
         }
     }
 }
